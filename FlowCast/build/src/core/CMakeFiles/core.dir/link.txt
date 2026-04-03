@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore.a  CMakeFiles/core.dir/__/main.cc.o CMakeFiles/core.dir/pull_stream.cc.o
+/usr/bin/ranlib libcore.a

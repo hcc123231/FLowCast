@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/fc.dir/main.cc.o  -o fc   -L/home/hcc/FlowCast/src/core  -Wl,-rpath,/home/hcc/FlowCast/src/core core/libcore.a -lavformat -lavutil -lavcodec 
