@@ -187,6 +187,55 @@ GitHub：提供源码 + README + 压测报告 + 演示视频。
 
 
 
+//数据流向
+FlowCast 的定位就是一个“中间人”角色，它同时具备两种身份：
+
+视角	FlowCast 的角色	说明
+对上游 RTMP 服务器（如 Nginx+RTMP）	RTMP 客户端	从服务器拉取 OBS 或其他源推上来的流
+对下游 RTMP 客户端（如 ffplay、VLC、其他播放器）	RTMP 服务端	将自己处理后的流重新发布为新的 RTMP 源，供其他客户端拉取
+📌 典型的数据流向
+text
+OBS/推流端 → RTMP服务器(原始流) → FlowCast(拉流→处理→重新推流) → 新的RTMP服务器(或直接作为服务端) → 播放器
+你也可以让 FlowCast 在处理后直接作为一个 RTMP 服务端，监听某个端口和 application，让播放器来拉取。这样它就成了一个“中间节点”，可以完成：
+
+协议转换（RTMP → HLS/DASH）
+
+转码（分辨率、码率、编码格式）
+
+录制/切片
+
+内容过滤或插播广告
+
+负载均衡或流复制分发
+
+🧠 架构示意图
+text
+[OBS] ---> [Nginx-RTMP :1935/live/stream] 
+                 |
+                 | (拉流)
+                 v
+           [FlowCast]  (作为客户端拉流，处理)
+                 |
+                 | (作为服务端重新推流)
+                 v
+    [新RTMP地址: rtmp://flowcast_ip:1935/processed/stream]
+                 |
+                 | (拉流)
+                 v
+            [ffplay / VLC]
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 给出完整的需求文档，我根据需求文档来实现
